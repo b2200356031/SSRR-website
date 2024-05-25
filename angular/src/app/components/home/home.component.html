@@ -1,0 +1,36 @@
+
+  
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+<div class="row">
+<div *ngFor="let product of products" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+    <div class="card card-small">
+        <div class="thumbnail">
+                <img alt="Opt alp thumbnail" src="{{product?.imageUrl}}"  width="300" height="230" >
+                <a href="/product/{{product.id}}" (click)="goToProduct($event, product)">
+                    <div class="thumb-cover"></div>
+                </a>
+                <div class="details">
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="card-info">
+            <div class="moving">
+                <a  >
+                    <h3>{{product?.name}}</h3>
+                    <p>{{product?.description}}</p>
+                    <button class="btn btn-danger btn-bottom-right" style="margin-top: -40px;" (click)="deleteInterested(product)">X</button>
+                </a>
+                <b class="actions" >
+                    <!--<a href="/product/{{product?.id}}" (click)="goToProduct($event, product)">Details</a>-->
+                    
+                    <b class="separator">|</b>
+                </b>
+            </div>
+            
+        </div>
+    </div>
+</div>
+</div>
+</div>

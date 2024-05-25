@@ -1,0 +1,7 @@
+<div class="comment-container">
+    <input (click)="setShowButtons(true)" [(ngModel)]="text" class="input-noStyle" type="text" placeholder="Add comment">
+    <div class="btn-container" *ngIf="showButtons">
+        <button class="btn-cancel" (click)="setShowButtons(false)">Cancel</button>
+        <button class="btn-comment" (click)="onAddComment()">Comment</button>
+    </div>
+</div>

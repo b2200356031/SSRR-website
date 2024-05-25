@@ -1,0 +1,73 @@
+<div class="page">
+    <div class="form-bg">
+    <form [formGroup]="signupForm" class="form">
+        <div class="box">
+
+            <div style="display: flex">
+                <h6 class="admin">Register</h6>
+            </div>
+            <div style="margin-bottom: 20px; margin-top: 20px;">
+                <input type="text" name="firstname" id="firstname" placeholder="Enter your first name" formControlName="firstname" required />
+                    <div style="color: green;" *ngIf="signupForm.controls['firstname'].invalid && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)">
+                        Please fill in your first name.
+                    </div>
+            </div>
+
+            <div style="margin-bottom: 20px; margin-top: 20px;">
+                <input type="text" name="lastname" id="lastname" placeholder="Enter your last name" formControlName="lastname" required />
+                    <div style="color: green;" *ngIf="signupForm.controls['lastname'].invalid && (signupForm.controls['lastname'].dirty || signupForm.controls['lastname'].touched)">
+                        Please fill in your last name.
+                      </div>
+            </div>
+
+            <div style="margin-bottom: 20px; margin-top: 20px;">
+                <input type="text" name="username" id="username" placeholder="Enter your username" formControlName="username" required />
+                    <div style="color: green;" *ngIf="signupForm.controls['username'].invalid && (signupForm.controls['username'].dirty || signupForm.controls['username'].touched)">
+                        Please fill in your username.
+                    </div>
+            </div>
+
+            <div style="margin-bottom: 20px; margin-top: 20px;">
+                <input type="email" name="email" id="email" placeholder="Enter your email" formControlName="email" required />
+                    <div style="color: green;" *ngIf="signupForm.controls['email'].invalid && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)">
+                        Please enter a valid email.
+                    </div>
+            </div>
+
+            <div style="margin-bottom: 20px; margin-top: 20px;">
+                <input type="password" name="password" id="password" placeholder="Enter your password" formControlName="password" required />
+                <div style="color: green;" *ngIf="signupForm.controls['password'].errors?.['passwordInvalid'] && (signupForm.controls['password'].dirty || signupForm.controls['password'].touched)">
+                    Password must be at least 8 characters long and contain at least one number and one letter.
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px; margin-top: 20px;">
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Enter your confirm password" formControlName="confirmPassword" required />
+                    <div style="color: green;" *ngIf="signupForm.controls['confirmPassword'].invalid && (signupForm.controls['confirmPassword'].dirty || signupForm.controls['confirmPassword'].touched)">
+                        Passwords must match.
+                    </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px; margin-top: 20px;">
+                <label for="role" >Role select</label>
+
+                <select class="form-control" id="role" formControlName="role" required> 
+                  <option>MERCHANT</option>
+                  <option>USER</option>
+                </select>
+
+                <div style="color: green;" *ngIf="signupForm.controls['role'].value === '' && (signupForm.controls['role'].dirty || signupForm.controls['role'].touched)">
+                    Please select a role.
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px; margin-top: 20px;">
+                <button class="SignUp" type="button" routerLink="/login">Already Registered ?</button>
+            </div>
+
+            <button class="login-button" type="button" [disabled]="signupForm.invalid"
+                (click)="register()">Register</button>
+        </div>
+    </form>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="forum-container">
+    <span>
+    </span>
+    <div class="posts-container">
+        <button class="btn-add-post"  (click)="openDialog()">Add post</button>
+        <span *ngFor="let post of posts; let i = index;">
+            <app-post-card [post]="post"></app-post-card>
+        </span>
+    </div>
+</div>
+

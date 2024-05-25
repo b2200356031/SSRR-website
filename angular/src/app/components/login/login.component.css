@@ -1,0 +1,25 @@
+
+.container
+{
+    width: 300px;
+    height: 300px;
+    box-shadow: 2px 2px 10px rgb(187, 187, 187);
+    border-radius: 10px;
+    background-color: #ffffff;
+    position: relative;
+    left: 350px;
+    top: 150px;
+}
+
+.page {
+    background-image: url('src/assets/shopsmart.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%; 
+    position: absolute;
+}
+
+.forgot-password-button {
+    width: auto;
+  }

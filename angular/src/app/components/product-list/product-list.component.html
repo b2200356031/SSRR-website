@@ -1,0 +1,33 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="container">
+    <input type="text" style="margin-bottom: 70px; margin-top: 50px;" [(ngModel)]="searchTerm" placeholder="Search for products">
+<div class="row">
+<div *ngFor="let product of filteredProducts" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+    <div class="card card-small">
+        <div class="thumbnail" (click)="onProductClick(product)">
+                <img  alt="Opt alp thumbnail" src="{{product?.imageUrl}}" width="300" height="230" >
+                <a href="/product/{{product.id}}">
+                    <div class="thumb-cover"></div>
+                </a>
+                <div class="details">
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="card-info">
+            <div class="moving">
+                <a href="/product/{{product.id}}" (click)="onProductClick(product)">
+                    <h3>{{product?.name}}</h3>
+                    <p>{{product?.description}}</p>
+                </a>
+                <b class="actions" (click)="onProductClick(product)">
+                    <a href="/product/{{product.id}}">Details</a>
+                    <b class="separator">|</b>
+                    <a class="blue-text" href="#/live/awesome-landing-page" target="_blank">Live Preview</a>
+                </b>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>

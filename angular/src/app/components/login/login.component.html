@@ -1,0 +1,36 @@
+<div class="page">
+  <div class="container">
+    <div style="display: flex; position: relative; top: 10px;" >
+      <h6 class="admin">Login</h6>
+    </div>
+    <div class="row justify-content-center mt-0">
+      <div class="col-md-9">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          
+          <div class="form-group">
+            <label for="email">Email </label>
+            <input type="email" style="width: 200px;" class="form-control" id="email" formControlName="email" placeholder="Enter email">
+            <span class="text" style="color: red;"
+              *ngIf="loginForm.get('email').errors && loginForm.get('email').hasError('email')"> Please enter a valid email 
+            </span>
+          </div>
+
+          <div class="form-group" style="padding-top: 10px;">
+            <label for="password">Password</label>
+            <input type="password" style="width: 200px;"class="form-control" id="password" formControlName="password" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid" style="margin-top: 20px;">Login</button>
+          
+          <div style="position: relative; top: -30px; left: 100px;">
+            <a class="text" type="button" routerLink="/forgot-password">Forgot Password?</a>
+          </div>
+        
+        </form>
+        <div class="error">
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  

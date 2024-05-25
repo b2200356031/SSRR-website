@@ -1,0 +1,39 @@
+<div class="comment-container">
+    <div class="comment-header">
+        <div class="comment-owner">
+            <img class="profile-img" src="../../../../../../assets/user.jpg" alt="profile-img" />
+            <span class="username"> {{comment?.usersDto?.firstName}}</span>
+        </div>
+        <div *ngIf="canEdit" style="margin-right: 50px;">
+            <button mat-icon-button aria-label="Delete" (click)="deleteComment()" >
+                <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Edit" (click)="isEditing()">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="comment-body">
+        <p *ngIf="!edit">{{comment.text}}</p>
+        <div *ngIf="edit" class="edit-comment-container">
+            <input (click)="setShowButtons(true)" [(ngModel)]="comment.text" class="input-noStyle" type="text"
+                placeholder="Add comment">
+            <div class="btn-container" *ngIf="showButtons">
+                <button class="btn-cancel" (click)="setShowButtons(false)">Cancel</button>
+                <button class="btn-comment" (click)="updateComment()">Update</button>
+            </div>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <p>
+                {{ comment?.creationDate | date: 'short' }}
+            </p>
+            <button mat-icon-button aria-label="Upvote" (click)="likeOrDislikeComment('like')">
+                <mat-icon>arrow_upward</mat-icon>
+            </button>
+            <span style="margin: 0 10px;">{{comment.likesCount}}</span>
+            <button mat-icon-button aria-label="Downvote" (click)="likeOrDislikeComment('dislike')">
+                <mat-icon>arrow_downward</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

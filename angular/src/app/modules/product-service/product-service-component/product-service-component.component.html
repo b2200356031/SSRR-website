@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      /* Centering */
+      body,
+      html {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 50px;
+      }
+
+      /* Product Card */
+      .product-card {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 5px; /* Reduced for a cleaner look */
+        padding: 20px;
+        margin-bottom: 20px;
+        display: flex; /* Allow for image and text side-by-side */
+        flex-direction: column; /* Stack elements vertically by default */
+        /* Add a slight shadow for depth */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Product Image */
+      .product-card img {
+        width: 300px; /* Set a fixed width for all product images */
+        height: 230px; /* Set a fixed height for all product images */
+        margin-bottom: 15px; /* Spacing between image and text */
+      }
+
+      /* Product Title & Description */
+      .product-details {
+        flex: 1; /* Allow text content to fill remaining space */
+      }
+
+      .product-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .product-description {
+        color: #777;
+        line-height: 1.5; /* Improve readability */
+      }
+
+      /* Add to Cart Button */
+      .btn-add-product {
+        margin-bottom: 40px;
+        /* Consider using Bootstrap button classes for styling */
+      }
+
+      .btn-get-analytics {
+        margin-bottom: 40px;
+        /* Consider using Bootstrap button classes for styling */
+      }
+      /* Hover effect for a subtle touch */
+      .product-card:hover {
+        transform: scale(1.02); /* Slight zoom on hover */
+      }
+
+      /* Responsiveness (Adjust as needed for your layout) */
+      @media (max-width: 768px) {
+        .product-card {
+          flex-direction: row; /* Switch to horizontal layout on smaller screens */
+        }
+      }
+
+      .spacer {
+        width: 840px;
+        display: inline-block;
+                      }
+    </style>
+  </head>
+
+<body>
+
+    <div class="container" id="main-container">
+        <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-add-product" data-toggle="modal"
+                    data-target="#addProductModal" (click)="onOpenModal(null, 'add')">Add New Product</button>
+                <span class="spacer"></span>
+                <button type="button" class="btn btn-primary btn-get-analytics" data-toggle="modal"
+                    data-target="#analytics" (click)="openAnalyticsModal()">Get Analytics</button>
+            </div>
+        </div>
+
+<!-- Analytics Modal -->
+<div class="modal fade" id="analyticsModal" tabindex="-1" role="dialog" aria-labelledby="analyticsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="analyticsModalLabel">Product Analytics</h5>
+                <button type="button" class="close" (click)="closeAnalyticsModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <canvas id="analyticsChart"></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeAnalyticsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div *ngFor="let product of products" class="col-md-4">
+                        <!-- Kartları her satırda 3 tane olacak şekilde sıralar -->
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src={{product?.imageUrl}}  alt="Product Image">
+                            </div>
+                            <div class="product-details">
+                                <h4>{{product?.name}}</h4>
+                                <p>{{product?.description}}</p>
+                            </div>
+                            <div class="product-actions mt-2">
+                                <button type="button" class="btn btn-success mr-2" (click)="onOpenModal(product, 'addCoupon')"
+                                    data-toggle="modal" data-target="#addCouponModal" >Add Coupon</button>
+                                <button type="button" class="btn btn-info mr-2" (click)="onOpenModal(product, 'update')"
+                                    data-toggle="modal" data-target="#updateProductModal">Update</button>
+                                <button type="button" class="btn btn-danger" (click)="onOpenModal(product, 'delete')"
+                                    data-toggle="modal" data-target="#deleteProductModal">Delete</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #addForm="ngForm" (ngSubmit)="onAddProduct(addForm)">
+                        <div class="form-group">
+                            <label for="productName">Name of Product</label>
+                            <input type="text" ngModel name="name" class="form-control" id="name"
+                                placeholder="Enter product name" required>
+                        </div>
+                        <input type=hidden ngModel="{{user?.id}}" name="merchantId" class="form-control" id="merchantId">
+                        <div class="form-group">
+                            <label for="productDescription">Description of Product</label>
+                            <input type="text" ngModel name="description" class="form-control" id="description"
+                                placeholder="Enter product description" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productImageURL">URL for Photo of Product</label>
+                            <label for="productImageURL">Size should be 300x230 for the best looking
+                            </label>
+                            <input type="text" ngModel name="imageUrl" class="form-control" id="imageUrl"
+                                placeholder="Enter product image URL" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="categoryId">Category Id of Product</label>
+                            <select ngModel name="categoryId" class="form-control" id="categoryId" required>
+                                <option *ngFor="let category of categories" [value]="category.id">{{ category.id }} - {{ category.name }}</option>
+                            </select>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" id="add-product-form" class="btn btn-secondary"
+                                data-dismiss="modal">Close</button>
+                            <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Product Modal -->
+    <div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog"
+        aria-labelledby="updateProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateProductModalLabel">Update Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #updateForm="ngForm">
+                        <div class="form-group">
+                            <label for="updateProductName">Name of Product</label>
+                            <input type="text" ngModel="{{updateProduct?.name}}" name="name" class="form-control"
+                                id="updateProductName" placeholder="Enter product name" required>
+                        </div>
+                        <input type=hidden ngModel="{{updateProduct?.id}}" name="id" class="form-control" id="id">
+                        <div class="form-group">
+                            <label for="updateProductDescription">Description of Product</label>
+                            <input type="text" ngModel="{{updateProduct?.description}}" name="description"
+                                class="form-control" id="updateProductDescription"
+                                placeholder="Enter product description" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateProductImageURL">URL for Photo of Product</label>
+                            <input type="text" ngModel="{{updateProduct?.imageUrl}}" name="imageUrl"
+                                class="form-control" id="updateProductImageURL" placeholder="Enter product image URL"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="categoryId">Category Id of Product</label>
+                            <select ngModel name="categoryId" class="form-control" id="categoryId" required>
+                                <option *ngFor="let category of categories" [value]="category.id">{{ category.id }} - {{ category.name }}</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button (click)="onUpdateProduct(updateForm.value)" type="submit"
+                                class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Delete Product Modal -->
+    <div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog"
+        aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteProductModalLabel">Delete Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete product {{deleteProduct?.name}}?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="delete-close-button" class="btn btn-secondary"
+                        data-dismiss="modal">No</button>
+                    <button (click)="onDeleteProduct(deleteProduct?.id)" type="button" class="btn btn-danger">Yes,
+                        Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Coupon Modal -->
+<div class="modal fade" id="addCouponModal" tabindex="-1" role="dialog" aria-labelledby="addCouponModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addCouponModalLabel">Add Coupon</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #addCouponForm="ngForm" (ngSubmit)="addCoupon(addCouponForm)">
+            <input type="hidden" ngModel="{{selectedProduct?.id}}" name="productId" class="form-control" id="productId">
+            <div class="form-group">
+              <label for="couponPrice">Price</label>
+              <input type="number" ngModel name="price" class="form-control" id="couponPrice" placeholder="Enter price" required>
+            </div>
+            <div class="form-group">
+              <label for="couponDiscount">Discount</label>
+              <input type="number" ngModel name="discount" class="form-control" id="couponDiscount" placeholder="Enter discount percentage" required>
+            </div>
+            <div class="form-group">
+              <label for="couponAvailableCoupons">Available Coupons</label>
+              <input type="number" ngModel name="availableCoupons" class="form-control" id="couponAvailableCoupons" placeholder="Enter number of available coupons" required>
+            </div>
+            <div class="form-group">
+                <label for="couponCouponCode">Coupon Code</label>
+                <input type="text" ngModel name="couponCode" class="form-control" id="couponCouponCode" placeholder="Enter a code of coupon" required>
+              </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button [disabled]="addCouponForm.invalid" type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

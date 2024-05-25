@@ -1,0 +1,25 @@
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top:60px ;
+    position: relative;
+}
+.btn-add-post{
+    border: none;
+    border-radius:7px ;
+    padding: 15px;
+    border-color: #F0F0F0;
+    position: absolute;
+    top:0;
+    right:15vw;
+    margin-bottom: 60px;
+   
+}
+.forum-container{
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    padding-top: 20px;
+}

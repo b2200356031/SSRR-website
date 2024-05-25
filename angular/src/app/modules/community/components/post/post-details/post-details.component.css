@@ -1,0 +1,122 @@
+.transparent-card {
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 20px;
+    width: 70vw;
+    margin: 20px; 
+    box-sizing: border-box; 
+}
+.post-card {
+    background-color: white;
+    width: 70vw; 
+    margin: 20px; 
+    display: flex;
+    flex-direction: column;
+}
+
+.post-card-header, .post-card-body, .post-card-footer {
+    padding: 15px; 
+}
+
+.post-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.post-card-footer > p {
+    margin: 0; 
+    flex: 1;
+}
+
+.button-group {
+    display: flex;
+    align-items: center;
+}
+
+.post-card-body{
+   
+}
+.post-title{
+    color: black; 
+    font-size: 22px; 
+    font-weight: bold; 
+    text-decoration: none; 
+}
+.post-title:hover {
+    text-decoration: underline; 
+}
+.profile-img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.username{
+    padding-left: 10px;
+    font-size: 18px;
+}
+.post-icons{
+    display: flex;
+    align-items: center;
+}
+.icon-text {
+    display: flex;
+    align-items: center;
+    margin-right: 10px; 
+}
+
+.icon-text i {
+    margin-right: 5px; 
+}
+.post-details-container{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.card-title-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+}
+.input-noStyle {
+    all: unset;
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+}
+.edit-post-container{
+    border: 1px solid #EAEDEF;
+    border-radius: 14px;
+    width: 70vw;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.btn-container{
+    display: flex;
+    margin-top: 20px;
+    margin-left: auto;
+}
+.btn-comment{
+    border: none;
+    border-radius: 14px;
+    color: white;
+    background-color: #0F3F18;
+    padding: 5px 20px;
+    margin: 0 10px;
+}
+.btn-cancel{
+    border: none;
+    border-radius: 14px;
+    color: black;
+    background-color: #EAEDEF;
+    padding: 5px 20px;
+}

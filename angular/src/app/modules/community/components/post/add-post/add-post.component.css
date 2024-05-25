@@ -1,0 +1,10 @@
+.form-container{
+    padding: 20px;
+}
+.btn-post-container{
+    padding-top: 20px;
+    float: right;
+}
+.post-content textarea{
+    height: 300px;
+}

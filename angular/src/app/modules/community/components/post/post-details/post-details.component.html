@@ -1,0 +1,70 @@
+<div class="post-details-container">
+    <div class="transparent-card">
+        <div class="card-title-container">
+            <a href="#" class="post-title">
+                {{post?.title}}
+            </a>
+            <div *ngIf="canEdit">
+                <button mat-icon-button aria-label="Delete" (click)="deletePost()">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                <button mat-icon-button aria-label="Edit" (click)="isEditing()">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+
+        </div>
+
+        <hr />
+        <div class="post-card-header">
+            <div class="post-owner">
+                <img class="profile-img" src="../../../../../../assets/user.jpg" alt="profile-img" />
+                <span class="username"> {{post?.usersDto?.firstName}}</span>
+            </div>
+            <div class="post-icons">
+                <span class="icon-text"> <i class="fas fa-eye" style="padding-right:10px ;"></i> {{post?.viewsCount}}
+                </span>
+                <span class="icon-text"> <i class="fas fa-comments"
+                        style="padding-right:10px ;"></i>{{post?.commentsCount}}</span>
+                <span class="icon-text"> <i class="fas fa-heart" style="padding-right:10px ;"></i>
+                    {{post?.likesCount}}</span>
+            </div>
+        </div>
+        <div class="post-card-body">
+
+            <p *ngIf="!edit">
+                {{post?.content}}
+            </p>
+            <div *ngIf="edit" class="edit-post-container">
+                <input (click)="setShowButtons(true)" [(ngModel)]="post.content" class="input-noStyle" type="text"
+                    placeholder="Add comment">
+                <div class="btn-container" *ngIf="showButtons">
+                    <button class="btn-cancel" (click)="setShowButtons(false)">Cancel</button>
+                    <button class="btn-comment" (click)="updatePost()">Update</button>
+                </div>
+            </div>
+        </div>
+        <div class="post-card-footer">
+            <p>
+                {{ post?.creationDate | date: 'short' }}
+            </p>
+            <div class="button-group">
+                <button mat-icon-button aria-label="Upvote" (click)="likeOrDislikeComment('like')">
+                    <mat-icon>arrow_upward</mat-icon>
+                </button>
+                <span style="margin: 0 10px;">{{post?.likesCount}}</span>
+                <button mat-icon-button aria-label="Downvote" (click)="likeOrDislikeComment('dislike')">
+                    <mat-icon>arrow_downward</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <app-add-comment (commentAdded)="addComment($event)"></app-add-comment>
+        <div *ngIf="comments.length > 0">
+            <div *ngFor="let comment of comments">
+                <app-comment [comment]="comment" (commentDeleted)="handleCommentDeleted($event)"></app-comment>
+            </div>
+        </div>
+
+    </div>
+</div>

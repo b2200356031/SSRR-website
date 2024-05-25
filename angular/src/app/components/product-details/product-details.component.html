@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="utf-8">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+  </head>
+  <body>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+  <div class="container">
+
+  <div class="product-content product-wrap clearfix product-deatil">
+  <div class="row">
+  <div class="col-md-5 col-sm-12 col-xs-12">
+  <div class="product-image">
+
+
+  <div class="carousel-inner">
+    <div class="shopping-items">
+          <img [src]="productDetail?.imageUrl" alt="Product Image" class="img-responsive">
+    </div>
+
+
+  </div>
+
+  </div>
+  </div>
+  <div class="col-md-6 col-md-offset-1 col-sm-12 col-xs-12">
+  <h2 class="name">
+    <td>{{productDetail?.name}}</td>
+    <i *ngFor="let _ of [1, 2, 3, 4, 5]" class="fa fa-star fa-2x text-primary"
+    [ngClass]="{ 'text-muted': _ > productDetail?.rating }"></i>
+  <span class="fa fa-2x"><h5> &nbsp;({{productDetail?.rating}}) &nbsp; &nbsp;{{productDetail?.reviewCount}} Votes</h5></span>
+
+  </h2>
+  <hr/>
+
+  <div class="certified">
+  </div>
+  <hr/>
+  <div class="description description-tabs">
+  <ul id="myTab" class="nav nav-pills">
+  <li [class.active]="activeTab === 'description'"><a href="#more-information" data-toggle="tab" (click)="changeTab('description')">Product Description </a></li>
+  <li [class.active]="activeTab === 'specifications'"><a href="#specifications" data-toggle="tab" (click)="changeTab('specifications')">Specifications</a></li>
+  <li [class.active]="activeTab === 'reviews'"><a href="#reviews" data-toggle="tab" (click)="changeTab('reviews')">Reviews</a></li>
+  <li [class.active]="activeTab === 'coupons'"><a href="#coupons" data-toggle="tab" (click)="changeTab('coupons')">Coupons</a></li>
+  <li [class.active]="activeTab === 'redeemedCoupons'"><a href="#redeemedCoupons" data-toggle="tab" (click)="changeTab('redeemedCoupons')">Redeemed Coupons</a></li>
+  </ul>
+  <div id="myTabContent" class="tab-content">
+  <div class="tab-pane fade active in" id="more-information">
+  <br/>
+  <p>
+    <td>{{productDetail?.description}}</td>
+  </p>
+  </div>
+
+  <div class="tab-pane" id="specifications">
+  <br/>
+  <dl class>
+  <p>Specificiations usndefined</p>
+  </dl>
+  </div>
+
+  <div class="tab-pane" id="coupons">
+    <br/>
+    <ul class="list-group">
+      <li *ngFor="let coupon of coupons" class="list-group-item">
+        <p><strong>ONLY </strong>{{coupon.avaibleCoupons}}<strong> Available Coupon Left!!</strong><p>
+        <p><strong>Discount:</strong> {{coupon.discount}}%</p>
+        <p><strong>Price:</strong> {{coupon.price}}</p>
+      <button class="btn btn-success mr-2" (click)="redeemCoupons(coupon)" >Reedem</button>
+      
+      <span class="spacer"></span>
+      <button class="btn btn-danger mr-2" (click)="deleteCoupons(coupon.couponId)" >Delete</button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="tab-pane" id="redeemedCoupons">
+    <br/>
+    <ul class="list-group">
+      <li *ngFor="let coupon of redeemedCoupons" class="list-group-item">
+
+
+        <p><strong>Discount:</strong> {{coupon.discount}}%</p>
+        <p><strong>Coupon code is:  </strong>{{coupon.couponCode}}<strong> </strong><p></p>
+
+      </li>
+    </ul>
+  </div>
+
+  <div class="tab-pane" id="reviews">
+    <br/>
+    <br/>
+
+    <form #reviewForm="ngForm" (ngSubmit)="submitReview(reviewForm)"  class="well padding-bottom-10" onsubmit="return false;" >
+
+
+
+          <div class="form-group" style="margin-bottom: 20px; margin-top: 20px;">
+            <label for="rating" style="margin-right: 10px;">Rating  </label>
+
+            <select  ngModel name ="rating" id="rating" required>
+              <option value="" disabled>-- Select Rating --</option>
+              <option value="1">Very Bad (★)</option>
+              <option value="2">Bad      (★★)</option>
+              <option value="3">Good     (★★★)</option>
+              <option value="4">Great    (★★★★)</option>
+              <option value="5">Perfect  (★★★★★)</option>
+            </select>
+
+
+          </div>
+
+
+
+        <textarea rows="2" class="form-control" placeholder="Write a review" ngModel name ="content" id="content" style="margin-top: 10px;" required></textarea>
+      <div class="margin-top-10">
+
+      <button [disabled]="reviewForm.invalid" type="submit" class="btn btn-sm btn-primary pull-right">
+      Submit Review
+      </button>
+      <a href="javascript:void(0);" class="btn btn-link profile-link-btn" rel="tooltip" data-placement="bottom" title data-original-title="Add Location"><i class="fa fa-location-arrow"></i></a>
+      <a href="javascript:void(0);" class="btn btn-link profile-link-btn" rel="tooltip" data-placement="bottom" title data-original-title="Add Voice"><i class="fa fa-microphone"></i></a>
+      <a href="javascript:void(0);" class="btn btn-link profile-link-btn" rel="tooltip" data-placement="bottom" title data-original-title="Add Photo"><i class="fa fa-camera"></i></a>
+      <a href="javascript:void(0);" class="btn btn-link profile-link-btn" rel="tooltip" data-placement="bottom" title data-original-title="Add File"><i class="fa fa-file"></i></a>
+      </div>
+      </form>
+    <div class="chat-body no-padding profile-message">
+      <ul>
+        
+        <li class="message" *ngFor="let review of reviews" style="margin-left: -20px;" >
+          <div class="bordered">
+          <img src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2220431045.jpg" class="online" />
+          <span class="message-text">
+            <a >
+              <a style="color: blue;">
+
+                {{ review.authorName }} {{ review.authorSurname }}
+                <span  class = "pull-right "style="padding-top: 15px;">
+                  <i *ngFor="let _ of [1, 2, 3, 4, 5]" class="fa fa-star fa-2x text-primary"
+                    [ngClass]="{ 'text-muted': _ > review.rating }"></i>
+
+                </span>
+              </a>
+
+
+
+            </a>
+            <div class="" style="margin-left: 50px; margin-top: -5px;">
+            {{ review.content }}
+          </div>
+          </span>
+
+
+          <ul class="list-inline font-xs" style="padding-top: 10px; padding-left: 15px; height: 40px;">
+            <li>
+              
+
+                <div class="review">
+                  <button class="button like-button" (click)="toggleLike(review)">
+                      👍 <span class="like-count">({{ review.likes }})  </span>
+                  </button>
+                  <button class="button dislike-button" (click)="toggleDislike(review)">
+                      👎 <span class="dislike-count">({{ review.dislikes }})  </span>
+                  </button>
+              </div>
+                
+                
+
+            </li>
+            <li class="pull-right">
+                <button type="button" class="btn btn-outline-primary btn-xs" data-toggle="modal"
+                data-target="#UpdateReviewModal" (click)="onOpenModal(review,'update')">Edit</button>
+
+                <button type="button" class="btn btn-outline-danger btn-xs" data-toggle="modal"
+                data-target="#DeleteReviewModal" (click)="onOpenModal(review,'delete')"> Delete</button>
+            </li>
+          </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+
+  <div class="modal fade" id="UpdateReviewModal" tabindex="-1" role="dialog"
+        aria-labelledby="updateProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #updateForm="ngForm">
+                        <label for="updateReview">Update Review</label>
+                        <div class="form-group" style="margin-bottom: 20px; margin-top: 20px;">
+                          <label for="rating" style="margin-right: 10px;">Rating  </label>
+              
+                          <select  ngModel name ="rating" id="rating" required>
+                            <option value="" disabled>-- Select Rating --</option>
+                            <option value="1">Very Bad (★)</option>
+                            <option value="2">Bad      (★★)</option>
+                            <option value="3">Good     (★★★)</option>
+                            <option value="4">Great    (★★★★)</option>
+                            <option value="5">Perfect  (★★★★★)</option>
+                          </select>
+              
+              
+                        </div>
+                        <div class="form-group">
+                            <input type="text" ngModel="{{updateReview?.content}}" name="content" class="form-control"
+                                id="updateReview" placeholder="Enter review" required>
+                        </div>
+                        <input type=hidden ngModel="{{updateReview?.reviewId}}" name="reviewId" class="form-control" id="updateReview">
+                        <input type=hidden ngModel="{{pid}}" name="product_id" class="form-control" id="updateReview">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close-button">Close</button>
+                            <button [disabled]="updateForm.invalid" (click)="onUpdateReview(updateForm.value)" type="submit"
+                                class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="DeleteReviewModal" tabindex="-1" role="dialog"
+        aria-labelledby="deleteReviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteReviewModalLabel">Delete Review</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete your review</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="delete-close-button" class="btn btn-secondary"
+                        data-dismiss="modal">No</button>
+                    <button (click)="onDeleteReview(deleteReview?.reviewId)" type="button" class="btn btn-danger">Yes,
+                        Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+
+
+
+
+  </div>
+  </div>
+  <hr/>
+  <div class="row">
+  <div class="col-sm-12 col-md-6 col-lg-6">
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-6">
+  <div class="btn-group pull-right">
+  <button (click)="shareOnTwitter()" class="btn btn-white btn-default"><i class="fab fa-twitter"></i> Share on Twitter</button>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+
+  </div>
+</body>
+</html>
